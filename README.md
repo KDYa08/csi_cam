@@ -208,7 +208,7 @@ rpicam-still -t 0
 ## ▶️ ROS 2 CSI 카메라 노드 실행
 
 ```bash
-ros2 run csi_cam csi_cam1
+ros2 run csi_cam cam1
 ```
 
 퍼블리시되는 토픽 확인:
