@@ -43,7 +43,7 @@ meson cmake python3-yaml python3-ply
 ### 2️⃣ libcamera 빌드 및 설치
 
 ```bash
-cd ~/csi_cam_ws/src
+cd ~/colcon_ws/src
 git clone https://github.com/raspberrypi/libcamera.git
 cd libcamera
 
@@ -75,7 +75,7 @@ sudo ninja -C build install
 ### 3️⃣ rpicam-apps 빌드 및 설치
 
 ```bash
-cd ~/csi_cam_ws/src
+cd ~/colcon_ws/src
 git clone https://github.com/raspberrypi/rpicam-apps.git
 cd rpicam-apps
 
@@ -109,7 +109,7 @@ sudo ldconfig
 ### 4️⃣ ROS 2 패키지 다운로드
 
 ```bash
-cd ~/csi_cam_ws/src
+cd ~/colcon_ws/src
 git clone https://github.com/ros-perception/image_transport_plugins.git
 git clone https://github.com/KDYa08/csi_cam.git
 ```
@@ -130,7 +130,7 @@ git clone https://github.com/KDYa08/csi_cam.git
 ### 5️⃣ ROS 2 워크스페이스 빌드
 
 ```bash
-cd ~/csi_cam_ws
+cd ~/colcon_ws
 colcon build --symlink-install
 source install/setup.bash
 ```
