@@ -110,7 +110,7 @@ sudo ldconfig
 
 ```bash
 cd ~/colcon_ws/src
-git clone -jazzy https://github.com/ros-perception/image_transport_plugins.git
+git clone -b jazzy https://github.com/ros-perception/image_transport_plugins.git
 sudo apt-get install ros-jazzy-image-transport-plugins
 sudo apt update
 sudo apt upgrade
