@@ -21,4 +21,4 @@ def generate_launch_description():
             ExecuteProcess(
                 cmd=["ros2", "run", "csi_cam", "cam2"], output="screen"
             )
-        ]
+        ])
