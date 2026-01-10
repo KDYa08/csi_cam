@@ -35,7 +35,7 @@ class CsiCameraPublisher(Node):
                 bgr_frame = cv2.imdecode(np.frombuffer(jpg, dtype=np.uint8), cv2.IMREAD_COLOR)
 
                 if bgr_frame is not None:
-                    cv2.imshow('Camera Stream', bgr_frame)
+                    #cv2.imshow('Camera Stream', bgr_frame)
                     self.csi_cam_publisher.publish(self.bridge.cv2_to_imgmsg(bgr_frame, encoding='bgr8'))
                     self.csi_cam_compressed_publisher.publish(self.bridge.cv2_to_compressed_imgmsg(bgr_frame))
 
