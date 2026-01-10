@@ -84,7 +84,7 @@ libexif-dev ffmpeg libavcodec-extra libavcodec-dev libavdevice-dev \
 libpng-dev libpng-tools libepoxy-dev qt5-qmake qtmultimedia5-dev
 
 meson setup build \
-  -Denable_libav=enabled \
+  -Denable_libav=disabled \
   -Denable_drm=enabled \
   -Denable_egl=enabled \
   -Denable_qt=enabled \
