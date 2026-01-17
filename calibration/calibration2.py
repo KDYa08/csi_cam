@@ -45,7 +45,7 @@ def capture_camera():
 def calibrate_camera():
     # 체커보드의 차원 정의
     CHECKERBOARD = (7,10)  # 체커보드 행과 열당 내부 코너 수
-    criteria = (cv2.TERM_CRITERIA_EPS + cv2.TERM_CRITERIA_MAX_ITER, 22, 0.001) # (1, mm, 0.001)
+    criteria = (cv2.TERM_CRITERIA_EPS + cv2.TERM_CRITERIA_MAX_ITER, 30, 0.001)
     
     # 각 체커보드 이미지에 대한 3D 점 벡터를 저장할 벡터 생성
     objpoints = []
