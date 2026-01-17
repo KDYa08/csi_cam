@@ -24,7 +24,7 @@ class CsiCameraPublisher(Node):
         self.bridge = CvBridge()
         self.buffer = b""
         print(os.getcwd())
-        with open('../calibration/camera_calibration.pkl', 'rb') as f:
+        with open('your/path/to/camera_calibration.pkl', 'rb') as f:
             calibration_data = pickle.load(f)
         
         self.mtx = calibration_data['camera_matrix']
@@ -55,6 +55,7 @@ class CsiCameraPublisher(Node):
                         dst = dst[y:y+h, x:x+w]
 
                     dst = cv2.flip(bgr_frame, -1)
+                    dst = cv2.reszie(dst, (640, 480))
                     self.csi_cam_publisher.publish(self.bridge.cv2_to_imgmsg(dst, encoding='bgr8'))
                     self.csi_cam_compressed_publisher.publish(self.bridge.cv2_to_compressed_imgmsg(dst))
                     #self.get_logger().info('success')

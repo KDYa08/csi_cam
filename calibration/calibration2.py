@@ -13,6 +13,7 @@ def capture_camera():
     process = subprocess.Popen(shlex.split(cmd), stdout=subprocess.PIPE, stderr=subprocess.PIPE)
     buffer = b""
     delay = 0
+    i = 0
     while True:
         buffer += process.stdout.read(4096)
         a = buffer.find(b'\xff\xd8')
@@ -25,8 +26,9 @@ def capture_camera():
             frame = cv2.imdecode(np.frombuffer(jpg, dtype=np.uint8), cv2.IMREAD_COLOR)
 
             # 파일 이름에 현재 날짜와 시간을 추가하여 저장
-            if delay >= 50:
-                filename = datetime.datetime.now().strftime("./checkerboards/capture_%Y%m%d_%H%M%S.png")
+            if delay >= 25:
+                i += 1
+                filename = f"./checkerboards/capture_{i}.png"
                 cv2.imwrite(filename, frame)
                 print(f"{filename} 이미지가 저장되었습니다.")
                 delay = 0
@@ -43,7 +45,7 @@ def capture_camera():
 def calibrate_camera():
     # 체커보드의 차원 정의
     CHECKERBOARD = (7,10)  # 체커보드 행과 열당 내부 코너 수
-    criteria = (cv2.TERM_CRITERIA_EPS + cv2.TERM_CRITERIA_MAX_ITER, 30, 0.001)
+    criteria = (cv2.TERM_CRITERIA_EPS + cv2.TERM_CRITERIA_MAX_ITER, 22, 0.001) # (1, mm, 0.001)
     
     # 각 체커보드 이미지에 대한 3D 점 벡터를 저장할 벡터 생성
     objpoints = []
@@ -81,8 +83,7 @@ def calibrate_camera():
     cv2.destroyAllWindows()
     
     # 카메라 캘리브레이션 수행
-    ret, mtx, dist, rvecs, tvecs = cv2.calibrateCamera(objpoints, imgpoints,
-                                                      gray.shape[::-1], None, None)
+    ret, mtx, dist, rvecs, tvecs = cv2.calibrateCamera(objpoints, imgpoints, gray.shape[::-1], None, None)
     
     # 결과 출력
     print("Camera matrix : \n")

@@ -9,6 +9,8 @@ import cv2
 import numpy as np
 import subprocess
 import shlex
+import pickle
+import os
     
 class CsiCameraPublisher(Node):
     def __init__(self):
@@ -20,6 +22,12 @@ class CsiCameraPublisher(Node):
         self.process = subprocess.Popen(shlex.split(self.cmd), stdout=subprocess.PIPE, stderr=subprocess.PIPE)
         self.bridge = CvBridge()
         self.buffer = b""
+        print(os.getcwd())
+        with open('your/path/to/camera_calibration.pkl', 'rb') as f:
+            calibration_data = pickle.load(f)
+        
+        self.mtx = calibration_data['camera_matrix']
+        self.dist = calibration_data['dist_coeffs']        
         self.publish_compressed_img()
         
     def publish_compressed_img(self):
@@ -36,8 +44,18 @@ class CsiCameraPublisher(Node):
 
                 if bgr_frame is not None:
                     #cv2.imshow('Camera Stream', bgr_frame)
-                    self.csi_cam_publisher.publish(self.bridge.cv2_to_imgmsg(bgr_frame, encoding='bgr8'))
-                    self.csi_cam_compressed_publisher.publish(self.bridge.cv2_to_compressed_imgmsg(bgr_frame))
+                    h, w = bgr_frame.shape[:2]
+                    
+                    newcameramtx, roi = cv2.getOptimalNewCameraMatrix(self.mtx, self.dist, (w,h), 1, (w,h))
+                    dst = cv2.undistort(bgr_frame, self.mtx, self.dist, None, newcameramtx)
+                    x, y, w, h = roi
+                    if all(v > 0 for v in [x, y, w, h]):
+                        dst = dst[y:y+h, x:x+w]
+
+                    dst = cv2.flip(bgr_frame, -1)
+                    dst = cv2.reszie(dst, (640, 480))
+                    self.csi_cam_publisher.publish(self.bridge.cv2_to_imgmsg(dst, encoding='bgr8'))
+                    self.csi_cam_compressed_publisher.publish(self.bridge.cv2_to_compressed_imgmsg(dst))
 
                     if cv2.waitKey(1) & 0xFF == ord('q'):
                         process.terminate()
