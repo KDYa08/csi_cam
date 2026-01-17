@@ -14,8 +14,8 @@ class CsiCameraPublisher(Node):
     def __init__(self):
         super().__init__('csi_cam_publsiher')
         qos_profile = QoSProfile(depth=10)
-        self.csi_cam_publisher = self.create_publisher(Image, '/csi_camera/image_raw', qos_profile)
-        self.csi_cam_compressed_publisher = self.create_publisher(CompressedImage, '/csi_camera/compressed', qos_profile)
+        self.csi_cam_publisher = self.create_publisher(Image, '/csi_camera_2/image_raw', qos_profile)
+        self.csi_cam_compressed_publisher = self.create_publisher(CompressedImage, '/csi_camera_2/compressed', qos_profile)
         self.cmd = 'rpicam-vid --inline --nopreview -t 0 --codec mjpeg --width 640 --height 480 --framerate 30 -o - --camera 1'
         self.process = subprocess.Popen(shlex.split(self.cmd), stdout=subprocess.PIPE, stderr=subprocess.PIPE)
         self.bridge = CvBridge()
