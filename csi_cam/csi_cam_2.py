@@ -53,7 +53,7 @@ class CsiCameraPublisher(Node):
                         dst = dst[y:y+h, x:x+w]
 
                     dst = cv2.flip(bgr_frame, -1)
-                    dst = cv2.reszie(dst, (640, 480))
+                    dst = cv2.resize(dst, (1280, 720))
                     self.csi_cam_publisher.publish(self.bridge.cv2_to_imgmsg(dst, encoding='bgr8'))
                     self.csi_cam_compressed_publisher.publish(self.bridge.cv2_to_compressed_imgmsg(dst))
 
