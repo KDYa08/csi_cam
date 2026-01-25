@@ -203,6 +203,24 @@ export LD_LIBRARY_PATH=/usr/local/lib/aarch64-linux-gnu:$LD_LIBRARY_PATH
 rpicam-still -t 0
 ```
 
+## 에러 발생시
+다음과 같은 에러가 발생한다면, 사용자가 video그룹에 포함되어있는지 확인
+
+```bash
+dmaheap allocation failure for rpicam-apps0 error: *** failed to allocate capture buffers for stream ***
+```
+
+```bash
+groups user_name
+```
+
+만약 video그룹이 존재하지 않는다면 video그룹을 추가하고 재부팅 후, 다시 실행
+
+```bash
+sudo usermod -a -G video $USER
+sudo reboot
+```
+
 ---
 
 ## ▶️ ROS 2 CSI 카메라 노드 실행
