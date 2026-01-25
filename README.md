@@ -255,7 +255,7 @@ CHECKERBOARD = (7, 10)
 #### ✔ 한 칸의 실제 길이 설정 (단위: mm)
 
 ```python
-objp[0,:,:2] = np.mgrid[0:CHECKERBOARD[0], 0:CHECKERBOARD[1]].T.reshape(-1, 2) * 22
+objp[0,:,:2] = np.mgrid[0:CHECKERBOARD[0], 0:CHECKERBOARD[1]].T.reshape(-1, 2) * 22 <-- 22mm
 ```
 
 > 🔹 위 예시는 **한 칸당 22mm** 체커보드를 사용하는 경우입니다.
