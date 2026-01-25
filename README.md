@@ -223,40 +223,6 @@ sudo reboot
 
 ---
 
-## ▶️ ROS 2 CSI 카메라 노드 실행
-
-```bash
-ros2 run csi_cam cam1
-```
-
-퍼블리시되는 토픽 확인:
-
-```bash
-ros2 topic list
-```
-
-영상 확인:
-
-```bash
-rqt
-```
-
----
-
-## 📡 ROS 2 토픽
-
-퍼블리시되는 주요 토픽 예시:
-
-* `/csi_cam/image_raw`
-* `/csi_cam/compressed`
-
-메시지 타입:
-
-* `sensor_msgs/msg/Image`
-* `sensor_msgs/msg/CompressedImage`
-
----
-
 ## 📐 카메라 캘리브레이션 (Camera Calibration)
 
 CSI 카메라의 렌즈 왜곡 보정 및 정확한 영상 처리를 위해 **체커보드 기반 카메라 캘리브레이션**을 수행할 수 있습니다.
@@ -357,7 +323,33 @@ with open('/home/pi/colcon_ws/src/csi_cam/calibration/camera_calibration.pkl', '
 ros2 run csi_cam cam1
 ```
 
+퍼블리시되는 토픽 확인:
+
+```bash
+ros2 topic list
+```
+
+영상 확인:
+
+```bash
+rqt
+```
+
 ✔ 캘리브레이션은 **카메라 변경 시, 해상도 변경 시, 렌즈 특성이 다른 경우** 다시 수행하는 것을 권장합니다.
+
+---
+
+## 📡 ROS 2 토픽
+
+퍼블리시되는 주요 토픽 예시:
+
+* `/csi_cam/image_raw`
+* `/csi_cam/compressed`
+
+메시지 타입:
+
+* `sensor_msgs/msg/Image`
+* `sensor_msgs/msg/CompressedImage`
 
 ---
 
