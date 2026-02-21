@@ -35,7 +35,7 @@ Ubuntu 24.04 및 **ROS 2 Jazzy Jalisco** 환경에서 테스트되었으며,
 ```bash
 sudo apt install -y build-essential libboost-dev libgnutls28-dev openssl \
 libtiff-dev pybind11-dev qtbase5-dev libqt5core5a libqt5widgets5t64 \
-meson cmake python3-yaml python3-ply
+meson cmake python3-yaml python3-ply \ libevent_pthreads
 ````
 
 ---
