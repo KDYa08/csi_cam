@@ -19,6 +19,6 @@ def generate_launch_description():
                 cmd=["ros2", "run", "csi_cam", "cam1"], output="screen"
             ),
             ExecuteProcess(
-                cmd=["ros2", "run", "csi_cam", "cam2"], output="screen"
+                cmd=["ros2", "launch", "turtlebot3_bringup", "robot.launch.py"], output="screen"
             )
         ])

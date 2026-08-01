@@ -45,7 +45,7 @@ def capture_camera():
 def calibrate_camera():
     # 체커보드의 차원 정의
     CHECKERBOARD = (7,10)  # 체커보드 행과 열당 내부 코너 수
-    criteria = (cv2.TERM_CRITERIA_EPS + cv2.TERM_CRITERIA_MAX_ITER, 22, 0.001) # (1, mm, 0.001)
+    criteria = (cv2.TERM_CRITERIA_EPS + cv2.TERM_CRITERIA_MAX_ITER, 30, 0.001)
     
     # 각 체커보드 이미지에 대한 3D 점 벡터를 저장할 벡터 생성
     objpoints = []
@@ -54,7 +54,8 @@ def calibrate_camera():
     
     # 3D 점의 세계 좌표 정의
     objp = np.zeros((1, CHECKERBOARD[0] * CHECKERBOARD[1], 3), np.float32)
-    objp[0,:,:2] = np.mgrid[0:CHECKERBOARD[0], 0:CHECKERBOARD[1]].T.reshape(-1, 2) * 22 # lengt of squre(mm)
+    objp[0,:,:2] = np.mgrid[0:CHECKERBOARD[0], 0:CHECKERBOARD[1]].T.reshape(-1, 2) * 15
+     # lengt of squre(mm)
     
     # 주어진 디렉터리에 저장된 개별 이미지의 경로 추출
     images = glob.glob('./checkerboards/*.png')
