@@ -35,7 +35,7 @@ Ubuntu 24.04 및 **ROS 2 Jazzy Jalisco** 환경에서 테스트되었으며,
 ```bash
 sudo apt install -y build-essential libboost-dev libgnutls28-dev openssl \
 libtiff-dev pybind11-dev qtbase5-dev libqt5core5a libqt5widgets5t64 \
-meson cmake python3-yaml python3-ply
+meson cmake python3-yaml python3-ply \ libevent_pthreads
 ````
 
 ---
@@ -203,9 +203,121 @@ export LD_LIBRARY_PATH=/usr/local/lib/aarch64-linux-gnu:$LD_LIBRARY_PATH
 rpicam-still -t 0
 ```
 
+## 에러 발생시
+다음과 같은 에러가 발생한다면, 사용자가 video그룹에 포함되어있는지 확인
+
+```bash
+dmaheap allocation failure for rpicam-apps0 error: *** failed to allocate capture buffers for stream ***
+```
+
+```bash
+groups user_name
+```
+
+만약 video그룹이 존재하지 않는다면 video그룹을 추가하고 재부팅 후, 다시 실행
+
+```bash
+sudo usermod -a -G video $USER
+sudo reboot
+```
+
 ---
 
-## ▶️ ROS 2 CSI 카메라 노드 실행
+## 📐 카메라 캘리브레이션 (Camera Calibration)
+
+CSI 카메라의 렌즈 왜곡 보정 및 정확한 영상 처리를 위해 **체커보드 기반 카메라 캘리브레이션**을 수행할 수 있습니다.
+본 프로젝트에는 이를 위한 Python 스크립트가 포함되어 있습니다.
+
+---
+
+### 1️⃣ 캘리브레이션 디렉토리 이동
+
+```bash
+cd ~/csi_cam/calibration
+```
+
+---
+
+### 2️⃣ 캘리브레이션 스크립트 수정
+
+```bash
+nano calibration2.py
+```
+
+체커보드 설정을 **사용 중인 체커보드 규격에 맞게 수정**합니다.
+
+#### ✔ 체커보드 내부 코너 개수 설정
+
+```python
+CHECKERBOARD = (7, 10)
+```
+
+#### ✔ 한 칸의 실제 길이 설정 (단위: mm)
+
+```python
+objp[0,:,:2] = np.mgrid[0:CHECKERBOARD[0], 0:CHECKERBOARD[1]].T.reshape(-1, 2) * 22 <-- 22mm
+```
+
+> 🔹 위 예시는 **한 칸당 22mm** 체커보드를 사용하는 경우입니다.
+> 사용하는 체커보드에 맞게 반드시 수정하세요.
+
+---
+
+### 3️⃣ 체커보드 이미지 저장 폴더 생성
+
+체커보드 이미지 저장용 폴더가 없다면 생성합니다.
+
+```bash
+mkdir checkerboards
+```
+
+---
+
+### 4️⃣ 캘리브레이션 스크립트 실행
+
+```bash
+python3 calibration2.py
+```
+
+---
+
+### 5️⃣ 체커보드로 캘리브레이션 진행
+
+* 카메라 앞에 체커보드를 다양한 각도와 위치로 이동
+* 충분한 프레임을 수집하고 q누르면 학습 진행
+* 캘리브레이션 결과는 `.pkl` 파일로 저장됨
+
+---
+
+### 6️⃣ CSI 카메라 노드에 캘리브레이션 파일 적용
+
+CSI 카메라 노드 소스 디렉토리로 이동합니다.
+
+```bash
+cd ~/csi_cam/csi_cam
+```
+
+소스 파일을 수정합니다.
+
+```bash
+nano csi_cam_1.py
+```
+
+아래 코드에서 **캘리브레이션 파일 경로를 실제 경로로 수정**합니다.
+
+```python
+with open('your/path/to/camera_calibration.pkl', 'rb') as f:
+```
+
+예시:
+
+```python
+with open('/home/pi/colcon_ws/src/csi_cam/calibration/camera_calibration.pkl', 'rb') as f:
+```
+
+---
+
+### 7️⃣ ROS 2 CSI 카메라 노드 실행
 
 ```bash
 ros2 run csi_cam cam1
@@ -222,6 +334,8 @@ ros2 topic list
 ```bash
 rqt
 ```
+
+✔ 캘리브레이션은 **카메라 변경 시, 해상도 변경 시, 렌즈 특성이 다른 경우** 다시 수행하는 것을 권장합니다.
 
 ---
 
