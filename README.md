@@ -43,7 +43,7 @@ meson cmake python3-yaml python3-ply libevent-pthreads-2.1-7
 ### 2️⃣ libcamera 빌드 및 설치
 
 ```bash
-cd ~/colcon_ws/src
+cd 
 git clone https://github.com/raspberrypi/libcamera.git
 cd libcamera
 
@@ -75,7 +75,7 @@ sudo ninja -C build install
 ### 3️⃣ rpicam-apps 빌드 및 설치
 
 ```bash
-cd ~/colcon_ws/src
+cd 
 git clone https://github.com/raspberrypi/rpicam-apps.git
 cd rpicam-apps
 
