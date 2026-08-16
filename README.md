@@ -109,7 +109,7 @@ sudo ldconfig
 ### 4️⃣ ROS 2 패키지 다운로드
 
 ```bash
-cd ~/colcon_ws/src
+cd ~/{colcon_ws}/src
 git clone -b jazzy https://github.com/ros-perception/image_transport_plugins.git
 sudo apt-get install ros-jazzy-image-transport-plugins
 sudo apt update
@@ -133,7 +133,7 @@ git clone https://github.com/KDYa08/csi_cam.git
 ### 5️⃣ ROS 2 워크스페이스 빌드
 
 ```bash
-cd ~/colcon_ws
+cd ~/{colcon_ws}
 colcon build --symlink-install
 source install/setup.bash
 ```
@@ -233,7 +233,7 @@ CSI 카메라의 렌즈 왜곡 보정 및 정확한 영상 처리를 위해 **�
 ### 1️⃣ 캘리브레이션 디렉토리 이동
 
 ```bash
-cd ~/csi_cam/calibration
+cd ~{colcon_ws}/csi_cam/calibration
 ```
 
 ---
